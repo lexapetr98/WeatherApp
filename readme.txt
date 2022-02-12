@@ -1,1 +1,0 @@
-This app finds the day with minimal feels_like and fact temperature, and day with maximum sun day, then show data in console. The data is fetching from api openweathermap.
