@@ -9,13 +9,19 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.MessageFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
+
 @SpringBootApplication
 public class WeatherApplication {
+    String latitude = "54.991375";
+    String longitude = "73.371529";
+    String myApiKey = "9e9263def52c9cf81997b01327a88a86";
+    String URL = String.format("https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&units=metric&exclude=current,minutely,hourly,alerts&appid=%s",latitude,longitude,myApiKey);
 
     private static final Logger log = LoggerFactory.getLogger(WeatherApplication.class);
 
@@ -31,8 +37,7 @@ public class WeatherApplication {
     @Bean
     public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
         return args -> {
-            WeatherData weatherData = restTemplate.getForObject(
-                    "https://api.openweathermap.org/data/2.5/onecall?lat=54.991375&lon=73.371529&units=metric&exclude=current,minutely,hourly,alerts&appid=9e9263def52c9cf81997b01327a88a86", WeatherData.class);
+            WeatherData weatherData = restTemplate.getForObject(URL, WeatherData.class);
             System.out.println(dayWithMinimalDifference(weatherData.getDaily()));
             System.out.println(dayWithMaximumSunDay(weatherData.getDaily()));
         };
